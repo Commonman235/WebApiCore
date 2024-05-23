@@ -16,8 +16,8 @@ namespace WebApi.Repository
         }
 
         public  List<Employee> GetDetails()
-        {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon").ToString());
+        { 
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon") ??"");
             SqlDataAdapter adapter = new SqlDataAdapter("SELECT  *  FROM EMPLOYEE", con);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
@@ -29,13 +29,12 @@ namespace WebApi.Repository
                 {
                     Employee employee = new Employee();
                     employee.Id = Convert.ToInt16(dt.Rows[i]["id"]);
-                    employee.Name = dt.Rows[i]["name"].ToString();
+                    employee.Name = dt.Rows[i]["name"].ToString() ?? "";
                     employee.Salary = Convert.ToInt64(dt.Rows[i]["salary"]);
-                    employee.Department = dt.Rows[i]["department"].ToString();
+                    employee.Department = dt.Rows[i]["department"].ToString() ?? "";
                     list.Add(employee);
                 }
-
-
+                 
             }
             if (list.Count > 0)
             {
@@ -47,7 +46,7 @@ namespace WebApi.Repository
          
         public string UpdateDetails(Employee employee)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon").ToString());
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon")??"");
             try
             {
 
@@ -71,7 +70,7 @@ namespace WebApi.Repository
  
         public string DeleteDetails(int EmployeeId)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon").ToString());
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon")??"");
             try
             {
 
@@ -95,7 +94,7 @@ namespace WebApi.Repository
         public string CreateEmployee(Employee employee)
         {
 
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon").ToString());
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("AppCon")??"");
             try
             {
 
