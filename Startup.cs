@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using WebApi.Interface;
 using WebApi.Models;
+using WebApi.Repository;
 
 namespace WebApi
 {
@@ -14,6 +17,23 @@ namespace WebApi
         { 
 
             services.AddControllers();
+            services.AddScoped<EmployeeInterface, EmployeeRepository>();
+            //Enable CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
+                  .AllowAnyHeader());
+            });
+            services.AddHttpContextAccessor();
+        }
+
+        public IConfiguration Configuration
+        {
+            get;
+        }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
         }
     }
 }
